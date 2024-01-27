@@ -44,10 +44,10 @@ public class Sudoku {
         cell.suggested.remove(values[i][col].value);
       }
     }
-    int rowblock = row / 3;
-    int colblock = col / 3;
-    for (int i = rowblock * 3; i < rowblock * 3 + 3; i++) {
-      for (int j = colblock * 3; j < colblock * 3 + 3; j++) {
+    int rowBlock = row / 3;
+    int colBlock = col / 3;
+    for (int i = rowBlock * 3; i < rowBlock * 3 + 3; i++) {
+      for (int j = colBlock * 3; j < colBlock * 3 + 3; j++) {
         if (values[i][j].value != null) {
           cell.suggested.remove(values[i][j].value);
         }
