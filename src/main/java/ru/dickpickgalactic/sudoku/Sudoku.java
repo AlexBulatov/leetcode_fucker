@@ -60,13 +60,13 @@ public class Sudoku {
   }
 
   public String toString() {
-    String res = "";
-    for (Cell valuesArr[] : values) {
+    StringBuilder res = new StringBuilder();
+    for (Cell[] valuesArr : values) {
       for (Cell value : valuesArr) {
-        res += value.toString() + " ";
+        res.append(value.toString()).append(" ");
       }
-      res += "\n";
+      res.append("\n");
     }
-    return res;
+    return res.toString();
   }
 }
