@@ -1,10 +1,12 @@
 package ru.dickpickgalactic.sudoku;
 
-public class Sudoku {
+public class Sudoku{
 
   public Cell[][] values = new Cell[9][9];
 
   public int emptyValues = 81;
+
+  public int prevEmptyValues = 81;
 
   public Sudoku(char[][] board) {
     for (int i = 0; i < 9; i++) {
@@ -17,9 +19,19 @@ public class Sudoku {
     }
   }
 
+  public Sudoku(Sudoku other) {
+    for (int i=0; i<9; i++)
+      for (int j=0; j<9; j++)
+      {
+        this.values[i][j] = new Cell(other.values[i][j]);
+      }
+    this.emptyValues = other.emptyValues;
+  }
+
   public void solveSudoku() {
     int guard = 0;
     while (emptyValues != 0 && guard < 10) {
+      prevEmptyValues = emptyValues;
       for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
           if (values[i][j].value == null) {
@@ -28,9 +40,32 @@ public class Sudoku {
         }
       }
       System.out.println(emptyValues);
+      if (prevEmptyValues == emptyValues) {
+        System.out.println("DO PREDICT");
+          assert getEmptyCell() != null;
+          int[] idx = getEmptyCell();
+          Cell emptyCell = values[idx[0]][idx[1]];
+          for (int suggestedNum: emptyCell.suggested) {
+            System.out.println("Suggest " + suggestedNum);
+            Sudoku recSudoku = new Sudoku(this);
+            recSudoku.values[idx[0]][idx[1]].value = suggestedNum;
+            recSudoku.solveSudoku();
+          }
+      }
       System.out.println(this.toString());
       guard++;
     }
+  }
+
+
+  private int[] getEmptyCell(){
+    for (int i=0; i<9; i++)
+      for (int j=0; j<9; j++){
+        if (values[i][j].value==null) {
+          return new int[]{i,j};
+        }
+      }
+    return null;
   }
 
   private void eraseSuggested(int row, int col) {
