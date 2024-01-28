@@ -6,10 +6,11 @@ public class Main {
 
   public void solveSudoku(char[][] board) {
     Sudoku sudoku = new Sudoku(board);
-    System.out.println(sudoku.toString());
-    sudoku.solveSudoku();
-    System.out.println("-----------");
-    System.out.println(sudoku.toString());
+    Sudoku res = sudoku.solveSudoku();
+    for (int i=0; i<9; i++)
+      for (int j=0; j<9; j++)
+        board[i][j] = (char) (res.values[i][j].value + '0');
+    System.out.println(res);
   }
 
   public static void main(String[] args) {

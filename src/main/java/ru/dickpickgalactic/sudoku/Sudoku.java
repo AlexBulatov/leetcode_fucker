@@ -6,7 +6,7 @@ public class Sudoku{
 
   public int emptyValues = 81;
 
-  public int prevEmptyValues = 81;
+  public int prevEmptyValues = 0;
 
   public Sudoku(char[][] board) {
     for (int i = 0; i < 9; i++) {
@@ -20,17 +20,19 @@ public class Sudoku{
   }
 
   public Sudoku(Sudoku other) {
+    this.values = new Cell[9][9];
     for (int i=0; i<9; i++)
       for (int j=0; j<9; j++)
       {
         this.values[i][j] = new Cell(other.values[i][j]);
       }
     this.emptyValues = other.emptyValues;
+    this.prevEmptyValues = 0;
   }
 
-  public void solveSudoku() {
+  public Sudoku solveSudoku() {
     int guard = 0;
-    while (emptyValues != 0 && guard < 10) {
+    while (emptyValues >= 0 && guard < 10 && emptyValues != prevEmptyValues) {
       prevEmptyValues = emptyValues;
       for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
@@ -39,22 +41,26 @@ public class Sudoku{
           }
         }
       }
-      System.out.println(emptyValues);
-      if (prevEmptyValues == emptyValues) {
-        System.out.println("DO PREDICT");
-          assert getEmptyCell() != null;
-          int[] idx = getEmptyCell();
-          Cell emptyCell = values[idx[0]][idx[1]];
-          for (int suggestedNum: emptyCell.suggested) {
-            System.out.println("Suggest " + suggestedNum);
-            Sudoku recSudoku = new Sudoku(this);
-            recSudoku.values[idx[0]][idx[1]].value = suggestedNum;
-            recSudoku.solveSudoku();
-          }
-      }
-      System.out.println(this.toString());
       guard++;
     }
+    if (prevEmptyValues == emptyValues && emptyValues != 0) {
+      assert getEmptyCell() != null;
+      int[] idx = getEmptyCell();
+        assert idx != null;
+        Cell emptyCell = values[idx[0]][idx[1]];
+      for (int suggestedNum: emptyCell.suggested) {
+        Sudoku recSudoku = new Sudoku(this);
+        recSudoku.values[idx[0]][idx[1]].value = suggestedNum;
+        recSudoku.emptyValues--;
+        recSudoku.solveSudoku();
+        if (recSudoku.emptyValues == 0) {
+          this.values = recSudoku.values;
+          this.emptyValues = recSudoku.emptyValues;
+          return this;
+        }
+      }
+    }
+    return this;
   }
 
 
