@@ -17,22 +17,9 @@ public class Cell {
       this.suggested.clear();
     }
   }
-
-  private Cell(Integer theValue, TreeSet<Integer> theSuggested) {
-    Cell thatCell = new Cell();
-    thatCell.value = theValue;
-    thatCell.suggested = (TreeSet<Integer>) theSuggested.clone();
-  }
-
-  @Override
-  public Cell clone() {
-    Cell that;
-    try {
-      that = (Cell) super.clone();
-    } catch (CloneNotSupportedException e) {
-      that = new Cell(this.value, this.suggested);
-    }
-    return that;
+  public Cell(Cell that) {
+    this.value = that.value;
+    this.suggested = (TreeSet<Integer>) that.suggested.clone();
   }
 
   public String toString() {

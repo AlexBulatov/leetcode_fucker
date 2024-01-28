@@ -1,6 +1,6 @@
 package ru.dickpickgalactic.sudoku;
 
-public class Sudoku {
+class Sudoku {
 
   public Cell[][] values = new Cell[9][9];
 
@@ -17,20 +17,30 @@ public class Sudoku {
     }
   }
 
+  private Sudoku(Sudoku that) {
+    this.emptyValues = that.emptyValues;
+    for (int i = 0; i < that.values.length; i++) {
+      for (int j = 0; j < that.values[i].length; j++) {
+        this.values[i][j] = new Cell(that.values[i][j]);
+      }
+    }
+  }
+
   public static Sudoku solveSudoku(Sudoku sudoku, int iteration, int predictionDepth) {
-    System.out.printf("Iteration: %d\n", iteration);
     int prevEmptyCellsCount = 0;
-    while (sudoku.emptyValues != prevEmptyCellsCount && sudoku.emptyValues != 0) {
+    int tries = 0;
+    while (sudoku.emptyValues != prevEmptyCellsCount && sudoku.emptyValues != 0 && tries < 10) {
+      prevEmptyCellsCount = sudoku.emptyValues;
       for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
           if (sudoku.values[i][j].value == null) {
-            prevEmptyCellsCount = sudoku.emptyValues;
             sudoku.eraseSuggested(i, j);
           }
         }
       }
+      tries++;
     }
-    if (iteration > 3) {
+    if (iteration > 2) {
       System.out.println(" Too much iterations! Probably dead-end!");
       return sudoku;
     }
@@ -42,7 +52,10 @@ public class Sudoku {
               && !sudoku.values[i][j].suggested.isEmpty()
               && sudoku.values[i][j].suggested.size() <= predictionDepth) {
             Sudoku sudokuPredicted = sudoku.solveWithPredict(i, j, iteration, predictionDepth);
+            System.out.println(sudokuPredicted);
             if (sudokuPredicted.emptyValues == 0) {
+              System.out.println(" HUUUUUUUI");
+              System.out.println(sudokuPredicted);
               return sudokuPredicted;
             }
           }
@@ -58,13 +71,13 @@ public class Sudoku {
     System.out.printf(" Position: row [%d], col [%d]\n", row, col);
     for (Integer suggestedValue : values[row][col].suggested) {
       System.out.printf(" Predict number: %d\n", suggestedValue);
-      Sudoku sudokuPredicted = this.clone();
+      Sudoku sudokuPredicted = new Sudoku(this);
       sudokuPredicted.values[row][col].suggested.clear();
       sudokuPredicted.values[row][col].value = suggestedValue;
       sudokuPredicted.emptyValues--;
-      sudokuPredicted = Sudoku.solveSudoku(sudokuPredicted, iteration, predictionDepth);
-      if (sudokuPredicted.emptyValues == 0) {
-        return sudokuPredicted;
+      Sudoku result = Sudoku.solveSudoku(sudokuPredicted, iteration, predictionDepth);
+      if (result.emptyValues == 0) {
+        return result;
       }
     }
     return this;
@@ -95,30 +108,6 @@ public class Sudoku {
       cell.suggested.clear();
       emptyValues--;
     }
-  }
-
-  public char[][] getBoard() {
-    int rowNum = this.values.length;
-    int colNum = this.values[0].length;
-    char[][] newBoard = new char[rowNum][colNum];
-    for (int i = 0; i < rowNum; i++) {
-      for (int j = 0; j < colNum; j++) {
-        newBoard[i][j] =
-            this.values[i][j].value != null ? (char) (this.values[i][j].value + '0') : '.';
-      }
-    }
-    return newBoard;
-  }
-
-  @Override
-  public Sudoku clone() {
-    Sudoku that;
-    try {
-      that = (Sudoku) super.clone();
-    } catch (CloneNotSupportedException e) {
-      that = new Sudoku(this.getBoard());
-    }
-    return that;
   }
 
   @Override
