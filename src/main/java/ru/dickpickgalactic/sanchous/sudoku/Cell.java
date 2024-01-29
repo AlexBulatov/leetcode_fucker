@@ -1,4 +1,4 @@
-package ru.dickpickgalactic.sudoku;
+package ru.dickpickgalactic.sanchous.sudoku;
 
 import java.util.Arrays;
 import java.util.TreeSet;
