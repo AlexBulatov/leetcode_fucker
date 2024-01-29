@@ -1,4 +1,4 @@
-package ru.dickpickgalactic.sudoku;
+package ru.dickpickgalactic.andrew.sudoku;
 
 class Sudoku {
 
