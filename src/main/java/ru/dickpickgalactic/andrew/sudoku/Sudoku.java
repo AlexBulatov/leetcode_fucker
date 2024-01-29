@@ -40,7 +40,7 @@ class Sudoku {
       }
       tries++;
     }
-    if (iteration > 2) {
+    if (iteration > 1) {
       System.out.println(" Too much iterations! Probably dead-end!");
       return sudoku;
     }
@@ -54,8 +54,6 @@ class Sudoku {
             Sudoku sudokuPredicted = sudoku.solveWithPredict(i, j, iteration, predictionDepth);
             System.out.println(sudokuPredicted);
             if (sudokuPredicted.emptyValues == 0) {
-              System.out.println(" HUUUUUUUI");
-              System.out.println(sudokuPredicted);
               return sudokuPredicted;
             }
           }
