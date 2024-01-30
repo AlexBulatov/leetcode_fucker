@@ -1,4 +1,4 @@
-package ru.dickpickgalactic.andrew;
+package ru.dickpickgalactic.andrew.regexmatcher;
 
 public class RegexMatcher {
 
