@@ -16,6 +16,7 @@ public class Solution {
             k-=array[idx];
             idx--;
         }
+        System.gc();
         return idx-idxZero+1;
     }
 
