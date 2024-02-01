@@ -1,6 +1,6 @@
-package ru.dickpickgalactic.andrew;
+package ru.dickpickgalactic.andrew.medianofsortedarray;
 
-public class MedianOfSortedArrays {
+public class Solution {
 
   public double findMedianSortedArrays(int[] nums1, int[] nums2) {
 
@@ -60,7 +60,7 @@ public class MedianOfSortedArrays {
 
   public static void main(String[] args) {
     double res;
-    res = (new MedianOfSortedArrays()).findMedianSortedArrays(new int[]{2, 2, 4, 4},
+    res = (new Solution()).findMedianSortedArrays(new int[]{2, 2, 4, 4},
         new int[]{2, 2, 4, 4}); // 2 2 2 2 ((3)) 4 4 4 4
     System.out.printf("\nres = %.2f\n", res);
   }
