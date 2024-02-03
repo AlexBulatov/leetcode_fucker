@@ -12,19 +12,24 @@ public class Solution {
         return (long) Math.pow(x,n);
     }
 
-    public int sumOfPower(int[] nums) {
+    /*
+    *         long res = 0, s = 0, base = 1000000007;
         Arrays.sort(nums);
-        long mod = intPow(10, 8) + 7; // 1000-7 zxc
-        long res = 0;
-        for (int k=0; k<nums.length; k++){
-            res += (nums[k]  * (((long) nums[k] * nums[k]) % mod ) ) % mod; // o/
-            for (int i=k+1; i<nums.length; i++){
-                long val = ((long) nums[k] * (((long) nums[i] * nums[i]) % mod) ) % mod;
-                long valPow = val * intPow(2, (i-k-1)) % mod;
-                res += valPow;
-            }
+        for (int x: nums) {
+            res = (res + (s + x) * x % base * x % base) % base;
+            s = (s * 2 + x) % base;
         }
-        return (int) (res % mod);
+        return (int)res;
+    * */
+
+    public int sumOfPower(int[] nums) {
+        long res = 0, s = 0, base = 1000000007;
+        Arrays.sort(nums);
+        for (int x: nums) {
+            res = (res + (s + x) * x % base * x % base) % base;
+            s = (s * 2 + x) % base;
+        }
+        return (int)res;
     }
 
     public static void main(String[] args) {
