@@ -27,6 +27,7 @@ public class Solution {
   public static void main(String[] args) {
     (new Solution()).dailyTemperatures(new int[]{73,74,75,71,69,72,76,73});
 //    (new Solution()).dailyTemperatures(new int[]{5, 4, 3, 2, 1, 0});
+
   }
 
 }
