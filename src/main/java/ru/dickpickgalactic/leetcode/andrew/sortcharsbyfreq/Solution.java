@@ -1,4 +1,4 @@
-package ru.dickpickgalactic.andrew.sortcharsbyfreq;
+package ru.dickpickgalactic.leetcode.andrew.sortcharsbyfreq;
 
 import java.util.HashMap;
 import java.util.Map;
